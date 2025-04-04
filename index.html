@@ -3,10 +3,436 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Il mio sito</title>
+    <title>Evoluzione di Las Vegas | Galleria Immersiva</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #000000;
+            --secondary: #00f0ff;
+            --accent: #ff2d75;
+            --light: #ffffff;
+            --dark: #0a0a0a;
+            --overlay: rgba(0, 0, 0, 0.7);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--light);
+            background-color: var(--primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+        }
+        
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--light);
+            text-decoration: none;
+        }
+        
+        .logo span {
+            color: var(--accent);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 600;
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-links a:hover {
+            color: var(--secondary);
+        }
+        
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover:after {
+            width: 100%;
+        }
+        
+        .gallery-container {
+            margin-top: 80px;
+        }
+        
+        .year-section {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 0 5%;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .year-content {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: center;
+            z-index: 2;
+        }
+        
+        .year-info {
+            position: relative;
+        }
+        
+        .year-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 5rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            line-height: 1;
+        }
+        
+        .year-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--light);
+            margin-bottom: 1.5rem;
+        }
+        
+        .year-description {
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+        
+        .year-image {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            transform-style: preserve-3d;
+            transition: transform 0.5s ease;
+        }
+        
+        .year-image:hover {
+            transform: translateY(-10px) scale(1.02);
+        }
+        
+        .year-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+        
+        .year-image:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0,240,255,0.1) 0%, rgba(255,45,117,0.1) 100%);
+            pointer-events: none;
+        }
+        
+        .stats-section {
+            padding: 8rem 5%;
+            background: var(--dark);
+        }
+        
+        .stats-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 5rem;
+            color: var(--light);
+        }
+        
+        .stats-title span {
+            color: var(--accent);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .stat-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 2.5rem;
+            text-align: center;
+            transition: all 0.5s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255,255,255,0.1);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+            border-color: var(--accent);
+        }
+        
+        .stat-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: rgba(255,255,255,0.7);
+        }
+        
+        footer {
+            background: var(--dark);
+            padding: 5rem 5% 3rem;
+            text-align: center;
+            position: relative;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .footer-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--light);
+            margin-bottom: 2rem;
+            display: inline-block;
+        }
+        
+        .footer-logo span {
+            color: var(--accent);
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .footer-links a {
+            color: var(--light);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-weight: 600;
+        }
+        
+        .footer-links a:hover {
+            color: var(--secondary);
+        }
+        
+        .creators {
+            margin: 2rem 0;
+            font-size: 1.1rem;
+        }
+        
+        .creators span {
+            color: var(--accent);
+            font-weight: 700;
+        }
+        
+        .copyright {
+            margin-top: 3rem;
+            color: rgba(255,255,255,0.5);
+            font-size: 0.9rem;
+        }
+        
+        .sentinel-section {
+            background: var(--primary);
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .sentinel-image {
+            max-width: 300px;
+            margin: 0 auto 2rem;
+        }
+    </style>
 </head>
 <body>
-    <h1>Hello</h1>
+    <nav class="navbar">
+        <a href="#" class="logo">Vegas<span>Evolution</span></a>
+        <div class="nav-links">
+            <a href="#1984">1984</a>
+            <a href="#1999">1999</a>
+            <a href="#2009">2009</a>
+            <a href="#2025">2025</a>
+            <a href="#stats">Statistiche</a>
+        </div>
+    </nav>
+    
+    <div class="gallery-container">
+        <section class="year-section" id="1984">
+            <div class="year-content">
+                <div class="year-info">
+                    <div class="year-number">1984</div>
+                    <h2 class="year-title">Le origini nel deserto</h2>
+                    <p class="year-description">
+                        Las Vegas nel 1984 era una piccola oasi nel deserto con la Strip già riconoscibile, 
+                        ma con ampie aree desertiche ancora intatte attorno al nucleo urbano. 
+                        La città contava circa 164,000 abitanti e stava appena iniziando la sua trasformazione 
+                        in una destinazione turistica globale.
+                    </p>
+                </div>
+                <div class="year-image">
+                    <img src="https://media.sciencephoto.com/c0/59/16/39/c0591639-800px-wm.jpg" alt="Las Vegas 1984">
+                </div>
+            </div>
+        </section>
+        
+        <section class="year-section" id="1999">
+            <div class="year-content">
+                <div class="year-image">
+                    <img src="https://eoimages.gsfc.nasa.gov/images/imagerecords/37000/37228/vegas_tm5_1999_lrg.jpg" alt="Las Vegas 1999">
+                </div>
+                <div class="year-info">
+                    <div class="year-number">1999</div>
+                    <h2 class="year-title">L'era dell'espansione</h2>
+                    <p class="year-description">
+                        All'alba del nuovo millennio, Las Vegas stava vivendo un boom edilizio senza precedenti. 
+                        Nuovi mega-resort come il Bellagio e il Venetian stavano ridefinendo lo skyline, 
+                        mentre la popolazione superava i 478,000 abitanti. La città iniziava a trasformarsi 
+                        da destinazione per adulti a meta per famiglie.
+                    </p>
+                </div>
+            </div>
+        </section>
+        
+        <section class="year-section" id="2009">
+            <div class="year-content">
+                <div class="year-info">
+                    <div class="year-number">2009</div>
+                    <h2 class="year-title">La metropoli moderna</h2>
+                    <p class="year-description">
+                        Nonostante la crisi economica globale, Las Vegas mostrava ormai l'aspetto di una vera metropoli. 
+                        Con oltre 583,000 residenti, la città aveva sviluppato un'infrastruttura urbana complessa 
+                        e un'impronta umana che dominava completamente il paesaggio desertico circostante. 
+                        Il CityCenter rappresentava l'ultimo grido in termini di sviluppo urbano integrato.
+                    </p>
+                </div>
+                <div class="year-image">
+                    <img src="https://images.fineartamerica.com/images-medium-large/las-vegas-satellite-image-2009-nasa.jpg" alt="Las Vegas 2009">
+                </div>
+            </div>
+        </section>
+        
+        <section class="year-section" id="2025">
+            <div class="year-content">
+                <div class="year-image">
+                    <img src="https://eoimages.gsfc.nasa.gov/images/imagerecords/37000/37228/vegas_tm5_2004_lrg.jpg" alt="Las Vegas 2025">
+                </div>
+                <div class="year-info">
+                    <div class="year-number">2025</div>
+                    <h2 class="year-title">La città contemporanea</h2>
+                    <p class="year-description">
+                        Nel 2025, Las Vegas ha superato i 700,000 abitanti, diventando una delle città più moderne e sviluppate. 
+                        L'espansione urbana è continua, con nuovi quartieri residenziali e un'offerta di intrattenimento sempre più diversificata.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <section class="stats-section" id="stats">
+        <h2 class="stats-title">Crescita <span>Demografica</span></h2>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">164K</div>
+                <div class="stat-label">Abitanti nel 1980</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">258K</div>
+                <div class="stat-label">Abitanti nel 1990</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">478K</div>
+                <div class="stat-label">Abitanti nel 2000</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">644K</div>
+                <div class="stat-label">Abitanti nel 2025</div>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="footer-content">
+            <a href="#" class="footer-logo">Vegas<span>Evolution</span></a>
+            <p>Un progetto immersivo che mostra la trasformazione urbana di Las Vegas attraverso immagini satellitari</p>
+            <div class="footer-links">
+                <a href="https://earthobservatory.nasa.gov" target="_blank">NASA Earth Observatory</a>
+                <a href="https://www.lasvegasnevada.gov" target="_blank">Città di Las Vegas</a>
+                <a href="https://www.unlv.edu" target="_blank">UNLV Research</a>
+            </div>
+            <div class="creators">
+                Progetto creato da <span>Scamperle Elia</span> e <span>Ghzafar Zeshan</span>
+            </div>
+            <div class="copyright">
+                &copy; 2025 Tutti i diritti riservati | Immagini di pubblico dominio della NASA
+            </div>
+        </div>
+    </footer>
+
+    <section class="sentinel-section">
+        <h2>Immagini satellitari fornite da Sentinel-Hub</h2>
+        <img class="sentinel-image" src="data:image/png;base64,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" alt="Sentinel-Hub Logo">
+        <p>Le immagini satellitari di Las Vegas sono fornite da <a href="https://www.sentinel-hub.com" target="_blank">Sentinel-Hub</a>, un servizio che permette l'accesso a immagini satellitari e analisi geospaziali provenienti dalla missione Copernicus Sentinel.</p>
+    </section>
 </body>
 </html>
+
 
